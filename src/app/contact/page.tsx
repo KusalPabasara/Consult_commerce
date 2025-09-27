@@ -98,12 +98,19 @@ export default function Contact() {
       const emailSent = await sendConsultationEmailFallback(data);
 
       if (emailSent) {
-        console.log('Consultation request sent successfully to kusalpabasararcg@gmail.com');
+        console.log('✅ Consultation request sent successfully to kusalpabasararcg@gmail.com');
+        console.log('📧 Email details:', {
+          parentName: data.parentName,
+          parentEmail: data.email,
+          childName: data.childName,
+          urgency: data.urgency,
+          timestamp: new Date().toLocaleString()
+        });
         setIsSubmitted(true);
         reset();
       } else {
-        console.error('Failed to send consultation request');
-        alert('There was an error sending your request. Please try again or call us directly.');
+        console.error('❌ Failed to send consultation request');
+        alert('There was an error sending your consultation request. Please try again or call us directly at (555) 123-4567.');
       }
     } catch (error) {
       console.error('Error submitting consultation request:', error);
@@ -120,8 +127,8 @@ export default function Contact() {
           <CheckCircleIcon className="w-16 h-16 text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h2>
           <p className="text-gray-600 mb-6">
-            Your consultation request has been received. We will contact you within 24 hours
-            to schedule your appointment.
+            Your consultation request has been sent successfully to our office at kusalpabasararcg@gmail.com.
+            We will contact you within 24 hours to schedule your appointment.
           </p>
           <Button onClick={() => setIsSubmitted(false)} className="w-full">
             Submit Another Request

@@ -60,47 +60,60 @@ export const sendConsultationEmail = async (formData: ConsultationFormData): Pro
   }
 };
 
-// For production deployment, we'll use a fallback service that works out of the box
+// Real email sending using Formspree service
 export const sendConsultationEmailFallback = async (formData: ConsultationFormData): Promise<boolean> => {
   try {
-    // This is a simple fallback that logs the data and simulates email sending
-    // In production, this would integrate with a service like Formspree or Netlify Forms
+    // Prepare the email data for FormSubmit
+    const emailData = {
+      _subject: `🧠 New Consultation Request from ${formData.parentName}`,
+      _captcha: false,
+      _template: 'table',
 
-    const emailContent = `
-      New Consultation Request - Children's Mental Health
+      // Parent/Guardian Information
+      'Parent/Guardian Name': formData.parentName,
+      'Parent Email': formData.email,
+      'Parent Phone': formData.phone,
+      'Preferred Contact Method': formData.preferredContact,
 
-      Parent/Guardian Information:
-      - Name: ${formData.parentName}
-      - Email: ${formData.email}
-      - Phone: ${formData.phone}
-      - Preferred Contact: ${formData.preferredContact}
+      // Child Information
+      'Child Name': formData.childName,
+      'Child Age': formData.childAge,
 
-      Child Information:
-      - Name: ${formData.childName}
-      - Age: ${formData.childAge}
+      // Consultation Details
+      'Primary Concerns': formData.concerns,
+      'Urgency Level': formData.urgency.toUpperCase(),
+      'Previous Therapy Experience': formData.previousTherapy,
+      'Insurance Provider': formData.insurance || 'Not specified',
+      'Additional Message': formData.message || 'No additional message provided',
 
-      Consultation Details:
-      - Primary Concerns: ${formData.concerns}
-      - Urgency Level: ${formData.urgency}
-      - Previous Therapy: ${formData.previousTherapy}
-      - Insurance: ${formData.insurance || 'Not specified'}
+      // Submission Info
+      'Submission Date': new Date().toLocaleDateString(),
+      'Submission Time': new Date().toLocaleTimeString(),
+      'Website': 'Children\'s Mental Health Consulting',
 
-      Additional Message:
-      ${formData.message || 'No additional message provided'}
+      // FormSubmit configuration
+      _next: typeof window !== 'undefined' ? window.location.origin + '/contact?success=true' : 'https://your-site.vercel.app/contact?success=true'
+    };
 
-      Submitted: ${new Date().toLocaleString()}
-    `;
+    // Send to Formspree endpoint (free service that forwards to email)
+    const response = await fetch('https://formsubmit.co/kusalpabasararcg@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(emailData)
+    });
 
-    // For now, we'll log to console and simulate success
-    console.log('Consultation Request Received:');
-    console.log(emailContent);
-
-    // Simulate email sending delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    return true;
+    if (response.ok) {
+      console.log('✅ Consultation request sent successfully to kusalpabasararcg@gmail.com');
+      return true;
+    } else {
+      console.error('❌ Failed to send consultation request:', response.status, response.statusText);
+      return false;
+    }
   } catch (error) {
-    console.error('Error processing consultation request:', error);
+    console.error('❌ Error sending consultation request:', error);
     return false;
   }
 };
