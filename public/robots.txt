@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /contact
+
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+Sitemap: https://your-domain.com/sitemap.xml
+
+# Mental health consulting website
+# Providing professional support for children and families
