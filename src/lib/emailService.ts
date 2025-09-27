@@ -60,74 +60,37 @@ export const sendConsultationEmail = async (formData: ConsultationFormData): Pro
   }
 };
 
-// Real email sending using Formspree service
+// Professional email sending using our own Nodemailer API
 export const sendConsultationEmailFallback = async (formData: ConsultationFormData): Promise<boolean> => {
   try {
-    // Prepare the email data for FormSubmit
-    const emailData = {
-      _subject: `🧠 New Consultation Request from ${formData.parentName} - Children Consultancy`,
-      _captcha: false,
-      _template: 'table',
+    console.log('📧 Sending consultation request via Children Consultancy API...');
 
-      // Professional sender configuration
-      _replyto: formData.email,
-      _cc: '',
-      _from: 'Children Consultancy Website',
-
-      // Header Information for Professional Appearance
-      '📋 CONSULTATION REQUEST': '═══════════════════════════',
-      '🏥 Practice': 'Children Consultancy',
-      '🌐 Submitted via': 'Official Website Contact Form',
-      '📅 Date & Time': `${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
-      ' ': '─────────────────────────────',
-
-      // Parent/Guardian Information
-      '👤 Parent/Guardian Name': formData.parentName,
-      '📧 Parent Email': formData.email,
-      '📞 Parent Phone': formData.phone,
-      '💬 Preferred Contact Method': formData.preferredContact.charAt(0).toUpperCase() + formData.preferredContact.slice(1),
-
-      '  ': '─────────────────────────────',
-
-      // Child Information
-      '👶 Child Name': formData.childName,
-      '🎂 Child Age': `${formData.childAge} years old`,
-
-      '   ': '─────────────────────────────',
-
-      // Consultation Details
-      '🔍 Primary Concerns': formData.concerns,
-      '⚡ Urgency Level': formData.urgency.toUpperCase(),
-      '🩺 Previous Therapy Experience': formData.previousTherapy.charAt(0).toUpperCase() + formData.previousTherapy.slice(1),
-      '🏥 Insurance Provider': formData.insurance || 'Not specified',
-      '💭 Additional Message': formData.message || 'No additional message provided',
-
-      '    ': '─────────────────────────────',
-
-      // Footer Information
-      '📞 Next Steps': 'Please contact the family within 24 hours',
-      '🌐 Website': 'Children Consultancy Professional Services',
-      '📧 This inquiry was sent to': 'kusalpabasararcg@gmail.com',
-
-      // FormSubmit configuration
-      _next: typeof window !== 'undefined' ? window.location.origin + '/contact?success=true' : 'https://your-site.vercel.app/contact?success=true'
-    };
-
-    // Send to Formspree endpoint (free service that forwards to email)
-    const response = await fetch('https://formsubmit.co/kusalpabasararcg@gmail.com', {
+    // Send to our own API endpoint
+    const response = await fetch('/api/send-email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
       },
-      body: JSON.stringify(emailData)
+      body: JSON.stringify(formData)
     });
 
-    if (response.ok) {
-      console.log('✅ Consultation request sent successfully to kusalpabasararcg@gmail.com');
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      console.log('✅ Consultation request sent successfully!');
+      console.log('📧 Email sent from: Children Consultancy');
+      console.log('📧 Email sent to: kusalpabasararcg@gmail.com');
+      console.log('📧 Professional HTML format with branding');
+      console.log('📧 Parent can reply directly to email');
+      console.log('📧 Submission details:', {
+        parentName: formData.parentName,
+        childName: formData.childName,
+        urgency: formData.urgency,
+        timestamp: new Date().toLocaleString()
+      });
       return true;
     } else {
-      console.error('❌ Failed to send consultation request:', response.status, response.statusText);
+      console.error('❌ Failed to send consultation request:', result.message);
       return false;
     }
   } catch (error) {
