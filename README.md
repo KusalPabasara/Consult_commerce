@@ -152,4 +152,3 @@ To add Google Analytics:
 
 ---
 
-*Built with ❤️ for children's mental health support*
