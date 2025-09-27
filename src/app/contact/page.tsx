@@ -127,7 +127,7 @@ export default function Contact() {
           <CheckCircleIcon className="w-16 h-16 text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h2>
           <p className="text-gray-600 mb-6">
-            Your consultation request has been sent successfully to our office at kusalpabasararcg@gmail.com.
+            Your consultation request has been sent successfully to Children Consultancy.
             We will contact you within 24 hours to schedule your appointment.
           </p>
           <Button onClick={() => setIsSubmitted(false)} className="w-full">

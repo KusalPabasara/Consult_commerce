@@ -65,31 +65,49 @@ export const sendConsultationEmailFallback = async (formData: ConsultationFormDa
   try {
     // Prepare the email data for FormSubmit
     const emailData = {
-      _subject: `🧠 New Consultation Request from ${formData.parentName}`,
+      _subject: `🧠 New Consultation Request from ${formData.parentName} - Children Consultancy`,
       _captcha: false,
       _template: 'table',
 
+      // Professional sender configuration
+      _replyto: formData.email,
+      _cc: '',
+      _from: 'Children Consultancy Website',
+
+      // Header Information for Professional Appearance
+      '📋 CONSULTATION REQUEST': '═══════════════════════════',
+      '🏥 Practice': 'Children Consultancy',
+      '🌐 Submitted via': 'Official Website Contact Form',
+      '📅 Date & Time': `${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
+      ' ': '─────────────────────────────',
+
       // Parent/Guardian Information
-      'Parent/Guardian Name': formData.parentName,
-      'Parent Email': formData.email,
-      'Parent Phone': formData.phone,
-      'Preferred Contact Method': formData.preferredContact,
+      '👤 Parent/Guardian Name': formData.parentName,
+      '📧 Parent Email': formData.email,
+      '📞 Parent Phone': formData.phone,
+      '💬 Preferred Contact Method': formData.preferredContact.charAt(0).toUpperCase() + formData.preferredContact.slice(1),
+
+      '  ': '─────────────────────────────',
 
       // Child Information
-      'Child Name': formData.childName,
-      'Child Age': formData.childAge,
+      '👶 Child Name': formData.childName,
+      '🎂 Child Age': `${formData.childAge} years old`,
+
+      '   ': '─────────────────────────────',
 
       // Consultation Details
-      'Primary Concerns': formData.concerns,
-      'Urgency Level': formData.urgency.toUpperCase(),
-      'Previous Therapy Experience': formData.previousTherapy,
-      'Insurance Provider': formData.insurance || 'Not specified',
-      'Additional Message': formData.message || 'No additional message provided',
+      '🔍 Primary Concerns': formData.concerns,
+      '⚡ Urgency Level': formData.urgency.toUpperCase(),
+      '🩺 Previous Therapy Experience': formData.previousTherapy.charAt(0).toUpperCase() + formData.previousTherapy.slice(1),
+      '🏥 Insurance Provider': formData.insurance || 'Not specified',
+      '💭 Additional Message': formData.message || 'No additional message provided',
 
-      // Submission Info
-      'Submission Date': new Date().toLocaleDateString(),
-      'Submission Time': new Date().toLocaleTimeString(),
-      'Website': 'Children\'s Mental Health Consulting',
+      '    ': '─────────────────────────────',
+
+      // Footer Information
+      '📞 Next Steps': 'Please contact the family within 24 hours',
+      '🌐 Website': 'Children Consultancy Professional Services',
+      '📧 This inquiry was sent to': 'kusalpabasararcg@gmail.com',
 
       // FormSubmit configuration
       _next: typeof window !== 'undefined' ? window.location.origin + '/contact?success=true' : 'https://your-site.vercel.app/contact?success=true'

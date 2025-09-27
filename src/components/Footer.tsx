@@ -65,7 +65,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-200">
           <div className="text-center text-gray-500 text-sm">
-            <p>&copy; 2024 Children's Mental Health Consulting. All rights reserved.</p>
+            <p>&copy; 2024 Children Consultancy. All rights reserved.</p>
             <p className="mt-2">Providing compassionate care for young minds and their families.</p>
           </div>
         </div>

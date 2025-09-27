@@ -19,7 +19,7 @@ export default function Navigation() {
         <div className="flex w-full items-center justify-between py-6">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-blue-900">
-              Children's Mental Health
+              Children Consultancy
             </Link>
           </div>
 

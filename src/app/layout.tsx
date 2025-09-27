@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Children's Mental Health Consulting - Professional Support for Young Minds",
+  title: "Children Consultancy - Professional Mental Health Support for Young Minds",
   description: "Professional mental health consulting services for children and families. Specialized support for anxiety, depression, and behavioral challenges in a caring environment.",
   keywords: "children mental health, child therapy, family counseling, anxiety support, depression treatment, behavioral therapy",
   openGraph: {
-    title: "Children's Mental Health Consulting",
+    title: "Children Consultancy",
     description: "Professional mental health support for children and families",
     type: "website",
   },
